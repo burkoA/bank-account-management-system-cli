@@ -6,4 +6,42 @@
   <version>1.0-SNAPSHOT</version>
   <name>Archetype - bank-account-management-system-cli</name>
   <url>http://maven.apache.org</url>
+
+  <dependencies>
+    <!-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.20</version>
+      <scope>compile</scope>
+    </dependency>
+    <!-- Source: https://mvnrepository.com/artifact/tools.jackson.core/jackson-databind -->
+    <dependency>
+      <groupId>tools.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>3.0.3</version>
+      <scope>compile</scope>
+    </dependency>
+    <!-- Source: https://mvnrepository.com/artifact/tools.jackson.core/jackson-core -->
+    <dependency>
+      <groupId>tools.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>3.0.3</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>23</source>
+          <target>23</target>
+          <compilerArgs>--enable-preview</compilerArgs>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

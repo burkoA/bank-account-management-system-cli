@@ -1,0 +1,25 @@
+[ {
+  "id" : "62489b02-28e8-4309-a266-5183da653756",
+  "name" : "asd",
+  "email" : "asd",
+  "password" : "asd",
+  "balance" : 0.0
+}, {
+  "id" : "4f997dc8-9c78-49ec-94a4-24bd089b88d0",
+  "name" : "ewq",
+  "email" : "ewq",
+  "password" : "ewq",
+  "balance" : 0.0
+}, {
+  "id" : "ede534e7-8f7f-4cac-97da-e64eb2bff0ce",
+  "name" : "hello",
+  "email" : "hello",
+  "password" : "5431",
+  "balance" : 0.0
+}, {
+  "id" : "401562b9-f0d9-4463-9960-0d45459a2b51",
+  "name" : "Arsen",
+  "email" : "arsenburko67@gmail.com",
+  "password" : "1234",
+  "balance" : 0.0
+} ]
