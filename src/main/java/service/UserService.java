@@ -25,4 +25,16 @@ public class UserService {
     public void registration(User user){
         userRepository.createUser(user);
     }
+
+    public void deposit() {
+
+    }
+
+    public void withdraw() {
+
+    }
+
+    public void transfer() {
+
+    }
 }

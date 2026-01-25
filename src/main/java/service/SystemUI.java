@@ -36,4 +36,17 @@ public class SystemUI {
         System.out.println("Welcome " + name +"!");
         System.out.println("We are happy that you using our system!");
     }
+
+    public static void availableFunctionMessage() {
+        System.out.println("Select next option -");
+        System.out.println("1. Deposit");
+        System.out.println("2. Withdraw");
+        System.out.println("3. Transfer");
+        System.out.println("4. Exit");
+    }
+
+    public static void exitMessage(String name) {
+        System.out.println("Thank you for using our system " + name);
+        System.out.println("Have a nice day! Bye!");
+    }
 }

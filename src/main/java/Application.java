@@ -22,7 +22,7 @@ public class Application {
         UserRepository userRepository = new UserRepository();
         UserService userService = new UserService(userRepository);
         SystemUI.welcomeMessage();
-        User user;
+        User user = new User();
 
         Scanner input = new Scanner(System.in, Charset.defaultCharset());
         String selectedOption = input.nextLine();
@@ -37,6 +37,28 @@ public class Application {
             default:
                 throw new InvalidMenuOptionException("Please select only available option!");
         }
+
+        boolean isApplicationRunning = true;
+
+        while(isApplicationRunning) {
+            SystemUI.availableFunctionMessage();
+
+            switch(input.nextLine()) {
+                case "1":
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
+                case "4":
+                    isApplicationRunning = false;
+                    break;
+                default:
+            }
+
+        }
+
+        SystemUI.exitMessage(user.getName());
 
         input.close();
     }

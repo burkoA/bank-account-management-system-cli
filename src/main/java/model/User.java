@@ -7,6 +7,7 @@ import exceptions.IllegalCredentialsException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 @JsonPropertyOrder({"id","name","email","password","balance"})
 public class User {
@@ -71,9 +72,16 @@ public class User {
     }
 
     public void setEmail(String email) {
-        if(email == null || email.isBlank())
+        if(email == null || !emailValidation(email))
             throw new IllegalCredentialsException("Email couldn't be null");
 
         this.email = email;
+    }
+
+    private boolean emailValidation(String email) {
+        String regexPattern = "^(.+)@(\\S+)$";
+        return Pattern.compile(regexPattern)
+                .matcher(email)
+                .matches();
     }
 }
