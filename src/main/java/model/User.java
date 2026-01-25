@@ -2,6 +2,7 @@ package model;
 
 import exceptions.BalanceException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import exceptions.IllegalCredentialsException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,9 @@ public class User {
     }
 
     public void setName(String name) {
+        if(name == null || name.isBlank())
+            throw new IllegalCredentialsException("Name couldn't be null");
+
         this.name = name;
     }
 
@@ -44,6 +48,9 @@ public class User {
     }
 
     public void setPassword(String password) {
+        if(password == null || password.isBlank())
+            throw new IllegalCredentialsException("Password couldn't be null");
+
         this.password = password;
     }
 
@@ -64,6 +71,9 @@ public class User {
     }
 
     public void setEmail(String email) {
+        if(email == null || email.isBlank())
+            throw new IllegalCredentialsException("Email couldn't be null");
+
         this.email = email;
     }
 }

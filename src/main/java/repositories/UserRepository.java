@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserRepository {
     private static final String USERS_FILE = "users.json";
@@ -20,7 +21,7 @@ public class UserRepository {
         this.users = readUsers();
     }
 
-    public void createUser(User user) throws IOException {
+    public void createUser(User user){
         users.add(user);
 
         objectMapper.writerWithDefaultPrettyPrinter()
@@ -37,19 +38,14 @@ public class UserRepository {
         return objectMapper.readValue(file, new TypeReference<List<User>>() {});
     }
 
-    public User checkEmail(String email) {
-        for(User user : users) {
-            if(user.getEmail().equals(email))
-                return user;
-        }
-
-        throw new IllegalCredentialsException("Provided email doesn't exist");
+    public Optional<User> findByEmail(String email) {
+        return users.stream()
+                .filter(user -> user.getEmail().equals(email))
+                .findFirst();
     }
 
-    public void checkPassword(String correctPassword, String providedPassword) {
-        if(!correctPassword.equals(providedPassword)) {
-            throw new IllegalCredentialsException("Provided password is incorrect");
-        }
+    public boolean passwordValidation(String correctPassword, String providedPassword) {
+        return correctPassword.equals(providedPassword);
     }
 
     private void reload() {

@@ -1,8 +1,8 @@
-import exceptions.IllegalCredentialsException;
-import exceptions.IllegalOptionException;
+import exceptions.InvalidMenuOptionException;
 import model.User;
 import repositories.UserRepository;
 import service.SystemUI;
+import service.UserService;
 import utils.JsonCreator;
 
 import java.io.IOException;
@@ -11,56 +11,61 @@ import java.util.Scanner;
 
 public class Application {
     public static void main(String[] args) throws IOException {
+        new Application().start();
+    }
+
+    private void start() {
 
         JsonCreator.createUsersJsonFiles();
         JsonCreator.createTransactionJsonFiles();
 
         UserRepository userRepository = new UserRepository();
+        UserService userService = new UserService(userRepository);
         SystemUI.welcomeMessage();
         User user;
 
         Scanner input = new Scanner(System.in, Charset.defaultCharset());
         String selectedOption = input.nextLine();
-        String email;
-        String password;
 
         switch(selectedOption) {
             case "1":
-                loginFlow(input, userRepository);
+                user = loginFlow(input, userService);
                 break;
             case "2":
-                registrationFlow(input, userRepository);
+                registrationFlow(input, userService);
                 break;
             default:
-                throw new IllegalOptionException("Please select only available option!");
+                throw new InvalidMenuOptionException("Please select only available option!");
         }
 
         input.close();
     }
 
-    private static void loginFlow(Scanner input, UserRepository repository) {
+    private static User loginFlow(Scanner input, UserService controller) {
 
         SystemUI.loginMessage();
 
         String email = input.nextLine();
         String password = input.nextLine();
 
-        User user = repository.checkEmail(email);
-        repository.checkPassword(user.getPassword(), password);
+
+        User user = controller.login(email,password);
 
         SystemUI.successfulLogin(user.getName());
+
+        return user;
     }
 
-    private static void registrationFlow(Scanner input, UserRepository repository) throws IOException {
+    private static void registrationFlow(Scanner input, UserService controller){
 
-        repository.createUser(SystemUI.userCreation(input));
+        controller.registration(SystemUI.userCreation(input));
         System.out.println("User successfully created!");
 
         System.out.println("Do you want to login now? (yes / no)");
         String answer = input.nextLine();
 
         if (answer.equalsIgnoreCase("yes")) {
-            loginFlow(input, repository);
+            loginFlow(input, controller);
         }
     }
 }
