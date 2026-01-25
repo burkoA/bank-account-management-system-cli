@@ -1,3 +1,4 @@
+import exceptions.BalanceException;
 import exceptions.InvalidMenuOptionException;
 import model.User;
 import repositories.UserRepository;
@@ -5,12 +6,12 @@ import service.SystemUI;
 import service.UserService;
 import utils.JsonCreator;
 
-import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 
 public class Application {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new Application().start();
     }
 
@@ -22,7 +23,7 @@ public class Application {
         UserRepository userRepository = new UserRepository();
         UserService userService = new UserService(userRepository);
         SystemUI.welcomeMessage();
-        User user = new User();
+        User user;
 
         Scanner input = new Scanner(System.in, Charset.defaultCharset());
         String selectedOption = input.nextLine();
@@ -32,11 +33,14 @@ public class Application {
                 user = loginFlow(input, userService);
                 break;
             case "2":
-                registrationFlow(input, userService);
+                user = registrationFlow(input, userService);
                 break;
             default:
                 throw new InvalidMenuOptionException("Please select only available option!");
         }
+
+        if(user == null)
+            System.exit(1);
 
         boolean isApplicationRunning = true;
 
@@ -45,10 +49,37 @@ public class Application {
 
             switch(input.nextLine()) {
                 case "1":
+                    SystemUI.depositMessage();
+
+                    try {
+                        userService.deposit(user, new BigDecimal(input.nextLine()));
+                    } catch (NumberFormatException e) {
+                        System.out.println(e.getMessage());
+                    }
+
+                    SystemUI.successfulDeposit();
                     break;
                 case "2":
+                    SystemUI.withdrawMessage();
+
+                    try {
+                        userService.withdraw(user, new BigDecimal(input.nextLine()));
+                    } catch (NumberFormatException e) {
+                        System.out.println(e.getMessage());
+                    }
+
+                    SystemUI.successfulWithdraw();
                     break;
                 case "3":
+                    SystemUI.transferMessage();
+
+                    try {
+                        userService.transfer(user, input.nextLine(), new BigDecimal(input.nextLine()));
+                    } catch (NumberFormatException e) {
+                        System.out.println(e.getMessage());
+                    }
+
+                    SystemUI.successfulTransfer();
                     break;
                 case "4":
                     isApplicationRunning = false;
@@ -78,7 +109,7 @@ public class Application {
         return user;
     }
 
-    private static void registrationFlow(Scanner input, UserService controller){
+    private static User registrationFlow(Scanner input, UserService controller){
 
         controller.registration(SystemUI.userCreation(input));
         System.out.println("User successfully created!");
@@ -87,7 +118,9 @@ public class Application {
         String answer = input.nextLine();
 
         if (answer.equalsIgnoreCase("yes")) {
-            loginFlow(input, controller);
+            return loginFlow(input, controller);
+        } else {
+            return null;
         }
     }
 }

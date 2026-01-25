@@ -49,4 +49,32 @@ public class SystemUI {
         System.out.println("Thank you for using our system " + name);
         System.out.println("Have a nice day! Bye!");
     }
+
+    public static void depositMessage() {
+        System.out.println("Write the value of the deposit");
+    }
+
+    public static void successfulDeposit() {
+        System.out.println("Deposit is successfully!");
+        System.out.println("Thank you for using our system!");
+    }
+
+    public static void withdrawMessage() {
+        System.out.println("Write the value of the withdraw");
+    }
+
+    public static void successfulWithdraw() {
+        System.out.println("Withdraw is successful!");
+        System.out.println("Thank you for using our system!");
+    }
+
+    public static void transferMessage() {
+        System.out.println("Write required information in provided order");
+        System.out.println("1. Email \t 2. Amount");
+    }
+
+    public static void successfulTransfer() {
+        System.out.println("Transfer was successful!");
+        System.out.println("Thank you for using our system!");
+    }
 }
