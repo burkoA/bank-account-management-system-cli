@@ -4,8 +4,10 @@ import exceptions.BalanceException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import exceptions.IllegalCredentialsException;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -15,18 +17,18 @@ public class User {
     private String email;
     private String name;
     private String password;
-    private double balance;
+    private BigDecimal balance;
 
     public User() {
         this.id = UUID.randomUUID();
     }
 
-    public User(String email, String name, String password, double balance) {
+    public User(String email, String name, String password, BigDecimal balance) {
         this.id = UUID.randomUUID();
-        this.email = email;
-        this.name = name;
-        this.password = password;
-        this.balance = balance;
+        setEmail(email);
+        setName(name);
+        setPassword(password);
+        setBalance(balance);
     }
 
     public UUID getId() {
@@ -55,12 +57,12 @@ public class User {
         this.password = password;
     }
 
-    public double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
-        if(balance < 0) {
+    public void setBalance(BigDecimal balance) {
+        if(balance.compareTo(BigDecimal.ZERO) < 0) {
             throw new BalanceException("Balance can't be lower than 0");
         }
 
@@ -83,5 +85,20 @@ public class User {
         return Pattern.compile(regexPattern)
                 .matcher(email)
                 .matches();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if(!(object instanceof User))
+            return false;
+
+        User user = (User) object;
+
+        return Objects.equals(this.id, user.id);
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(this.id);
     }
 }

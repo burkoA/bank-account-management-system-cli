@@ -23,7 +23,10 @@ public class UserRepository {
 
     public void createUser(User user){
         users.add(user);
+        writeUsers();
+    }
 
+    public void writeUsers() {
         objectMapper.writerWithDefaultPrettyPrinter()
                 .writeValue(new File(USERS_FILE), users);
     }
@@ -44,11 +47,16 @@ public class UserRepository {
                 .findFirst();
     }
 
-    public boolean passwordValidation(String correctPassword, String providedPassword) {
-        return correctPassword.equals(providedPassword);
+    public int findUser(User user) {
+        int position = users.indexOf(user);
+        if(position == -1)
+            throw new IllegalCredentialsException("User not found");
+
+        return position;
     }
 
-    private void reload() {
-        users = readUsers();
+    public void updateUser(int position, User user) {
+        users.set(position,user);
+        writeUsers();
     }
 }
