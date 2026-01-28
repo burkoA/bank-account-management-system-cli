@@ -4,6 +4,7 @@ import exceptions.BalanceException;
 import exceptions.IllegalCredentialsException;
 import model.User;
 import repositories.UserRepository;
+import utils.PasswordHashing;
 
 import java.math.BigDecimal;
 
@@ -18,7 +19,7 @@ public class UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalCredentialsException("Email is incorrect!"));
 
-        if(!passwordValidation(user.getPassword(), password)) {
+        if(!PasswordHashing.verifyPassword(password, user.getPassword())) {
             throw new IllegalCredentialsException("Password is incorrect");
         }
 
@@ -30,6 +31,7 @@ public class UserService {
                         .ifPresent(u -> {
                             throw new IllegalCredentialsException("Email already exists");
                         });
+
         userRepository.createUser(user);
     }
 

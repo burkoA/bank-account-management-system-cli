@@ -1,8 +1,7 @@
-import exceptions.BalanceException;
 import exceptions.InvalidMenuOptionException;
 import model.User;
 import repositories.UserRepository;
-import service.SystemUI;
+import view.SystemUI;
 import service.UserService;
 import utils.JsonCreator;
 

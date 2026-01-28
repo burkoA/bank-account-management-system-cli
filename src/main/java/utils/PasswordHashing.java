@@ -1,24 +1,20 @@
 package utils;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
+import exceptions.IllegalCredentialsException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class PasswordHashing {
 
-    public static void hashPassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[16];
-        random.nextBytes(salt);
+    private final static BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-
-        byte[] hash = factory.generateSecret(spec).getEncoded();
+    public static String hashPassword(String plainPassword) {
+        if(plainPassword == null || plainPassword.isBlank()) {
+            throw new IllegalCredentialsException("Password cannot be null or empty");
+        }
+        return encoder.encode(plainPassword);
     }
 
-
+    public static boolean verifyPassword(String plainPassword, String hashPassword) {
+        return encoder.matches(plainPassword,hashPassword);
+    }
 }

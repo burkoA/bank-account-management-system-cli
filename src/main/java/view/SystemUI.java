@@ -1,6 +1,7 @@
-package service;
+package view;
 
 import model.User;
+import utils.PasswordHashing;
 
 import java.util.Scanner;
 
@@ -21,7 +22,7 @@ public class SystemUI {
         user.setEmail(input.nextLine());
 
         System.out.println("Enter password");
-        user.setPassword(input.nextLine());
+        user.setPassword(PasswordHashing.hashPassword(input.nextLine()));
 
         return user;
     }
