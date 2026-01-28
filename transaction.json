@@ -1,1 +1,22 @@
-{ }
+[ {
+  "id" : "bad97991-8b58-4d7e-ba4c-5384dad672b6",
+  "fromUser" : "abc@gmail.com",
+  "toUser" : null,
+  "amount" : 5000,
+  "timestamp" : "2026-01-28T13:12:26.3513496",
+  "operationType" : "DEPOSIT"
+}, {
+  "id" : "c0b4d8b7-6c1b-4f53-9318-ed4cd88ee836",
+  "fromUser" : "abc@gmail.com",
+  "toUser" : null,
+  "amount" : 2000,
+  "timestamp" : "2026-01-28T13:13:01.4157375",
+  "operationType" : "WITHDRAW"
+}, {
+  "id" : "abe15f06-ee79-4481-b23a-8a9d473f8867",
+  "fromUser" : "abc@gmail.com",
+  "toUser" : "anr@gmail.com",
+  "amount" : 1500,
+  "timestamp" : "2026-01-28T13:13:39.6807296",
+  "operationType" : "TRANSFER"
+} ]

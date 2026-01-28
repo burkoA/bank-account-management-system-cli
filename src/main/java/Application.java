@@ -1,6 +1,8 @@
 import exceptions.InvalidMenuOptionException;
 import model.User;
+import repositories.TransactionRepository;
 import repositories.UserRepository;
+import service.TransactionService;
 import view.SystemUI;
 import service.UserService;
 import utils.JsonCreator;
@@ -21,6 +23,9 @@ public class Application {
 
         UserRepository userRepository = new UserRepository();
         UserService userService = new UserService(userRepository);
+        TransactionRepository transactionRepository = new TransactionRepository();
+        TransactionService transactionService = new TransactionService(transactionRepository);
+
         SystemUI.welcomeMessage();
         User user;
 
@@ -51,7 +56,11 @@ public class Application {
                     SystemUI.depositMessage();
 
                     try {
-                        userService.deposit(user, new BigDecimal(input.nextLine()));
+                        BigDecimal amount = new BigDecimal(input.nextLine());
+
+                        userService.deposit(user, amount);
+                        transactionService.transactionDeposit(user, amount);
+
                     } catch (NumberFormatException e) {
                         System.out.println(e.getMessage());
                     }
@@ -62,7 +71,11 @@ public class Application {
                     SystemUI.withdrawMessage();
 
                     try {
-                        userService.withdraw(user, new BigDecimal(input.nextLine()));
+                        BigDecimal amount = new BigDecimal(input.nextLine());
+
+                        userService.withdraw(user, amount);
+                        transactionService.transactionWithdraw(user, amount);
+
                     } catch (NumberFormatException e) {
                         System.out.println(e.getMessage());
                     }
@@ -73,7 +86,13 @@ public class Application {
                     SystemUI.transferMessage();
 
                     try {
-                        userService.transfer(user, input.nextLine(), new BigDecimal(input.nextLine()));
+
+                        String sendToEmail = input.nextLine();
+                        BigDecimal amount = new BigDecimal(input.nextLine());
+
+                        userService.transfer(user, sendToEmail, amount);
+                        transactionService.transactionTransfer(user, sendToEmail, amount);
+
                     } catch (NumberFormatException e) {
                         System.out.println(e.getMessage());
                     }

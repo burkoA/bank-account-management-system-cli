@@ -17,7 +17,7 @@ public class User {
     private String email;
     private String name;
     private String password;
-    private BigDecimal balance;
+    private BigDecimal balance = new BigDecimal("0.00");
 
     public User() {
         this.id = UUID.randomUUID();
@@ -74,17 +74,7 @@ public class User {
     }
 
     public void setEmail(String email) {
-        if(email == null || !emailValidation(email))
-            throw new IllegalCredentialsException("Email couldn't be null");
-
         this.email = email;
-    }
-
-    private boolean emailValidation(String email) {
-        String regexPattern = "^(.+)@(\\S+)$";
-        return Pattern.compile(regexPattern)
-                .matcher(email)
-                .matches();
     }
 
     @Override

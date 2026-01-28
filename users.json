@@ -1,7 +1,13 @@
 [ {
-  "id" : "e1bedce7-6249-4642-935e-514d613fced8",
+  "id" : "98ef74fa-af16-48b3-8401-0a6f26279545",
   "name" : "Andrzej",
-  "email" : "aaaa@gmail.com",
-  "password" : "$2a$10$42bBIC9Q8GOZB6V4C5QWEeaomsnKUzqkWc/oVleZj0TQrftrdkBrS",
-  "balance" : null
+  "email" : "anr@gmail.com",
+  "password" : "$2a$10$R0uQvFMgev2bzhe8wUSQte4IQfzbQiuCHgvF465gYHh6tzpq0e/sW",
+  "balance" : 1500.00
+}, {
+  "id" : "09278c5e-62d9-4b36-af35-2e19c1d9a11f",
+  "name" : "Katarzyna",
+  "email" : "abc@gmail.com",
+  "password" : "$2a$10$kPxfoF7XUD0DPtuaOHpdFephUQ4oFoksYyQg30GcTxFhkMXU1dt6a",
+  "balance" : 1500.00
 } ]
