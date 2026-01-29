@@ -1,4 +1,6 @@
+import exceptions.BalanceException;
 import exceptions.InvalidMenuOptionException;
+import exceptions.LockAccountException;
 import model.User;
 import repositories.TransactionRepository;
 import repositories.UserRepository;
@@ -46,6 +48,10 @@ public class Application {
         if(user == null)
             System.exit(1);
 
+        if(user.getLock()) {
+            throw new LockAccountException("Account is locked!");
+        }
+
         boolean isApplicationRunning = true;
 
         while(isApplicationRunning) {
@@ -61,11 +67,10 @@ public class Application {
                         userService.deposit(user, amount);
                         transactionService.transactionDeposit(user, amount);
 
+                        SystemUI.successfulDeposit();
                     } catch (NumberFormatException e) {
                         System.out.println(e.getMessage());
                     }
-
-                    SystemUI.successfulDeposit();
                     break;
                 case "2":
                     SystemUI.withdrawMessage();
@@ -76,11 +81,11 @@ public class Application {
                         userService.withdraw(user, amount);
                         transactionService.transactionWithdraw(user, amount);
 
+                        SystemUI.successfulWithdraw();
                     } catch (NumberFormatException e) {
                         System.out.println(e.getMessage());
                     }
 
-                    SystemUI.successfulWithdraw();
                     break;
                 case "3":
                     SystemUI.transferMessage();
@@ -93,13 +98,29 @@ public class Application {
                         userService.transfer(user, sendToEmail, amount);
                         transactionService.transactionTransfer(user, sendToEmail, amount);
 
+                        SystemUI.successfulTransfer();
                     } catch (NumberFormatException e) {
                         System.out.println(e.getMessage());
                     }
 
-                    SystemUI.successfulTransfer();
                     break;
                 case "4":
+                    SystemUI.printUserTransaction(transactionService.getAllTransactionsPerUser(user.getEmail()));
+                    break;
+                case "5":
+
+                    SystemUI.limitTransactionMessage();
+
+                    try {
+                        Long numberOfLinit = Long.parseLong(input.nextLine());
+
+                        SystemUI.printUserTransaction(transactionService.getLimitTransactionPerUser(user.getEmail(), numberOfLinit));
+                    } catch (NumberFormatException e) {
+                        System.out.println(e.getMessage());
+                    }
+
+                    break;
+                case "6":
                     isApplicationRunning = false;
                     break;
                 default:
@@ -113,14 +134,34 @@ public class Application {
     }
 
     private static User loginFlow(Scanner input, UserService controller) {
-
+        int count = 0;
+        boolean isSuccess = false;
         SystemUI.loginMessage();
 
         String email = input.nextLine();
-        String password = input.nextLine();
 
+        User user = controller.login(email);
 
-        User user = controller.login(email,password);
+        if(user.getLock())
+            throw new LockAccountException("This account is locked");
+
+        while(!isSuccess && count < UserService.MAX_PASSWORD_TRY) {
+            String password = input.nextLine();
+
+            boolean isPasswordTheSame = controller.verifyPassword(password, user.getPassword());
+
+            if(isPasswordTheSame) {
+                isSuccess = true;
+            } else {
+                count++;
+                System.out.println("Failed attempt of login. Remain attempt - " + controller.getRemainAttempt(count));
+            }
+        }
+
+        if(!isSuccess) {
+            controller.blockUser(user);
+            throw new LockAccountException("Failed to login. Account is blocked");
+        }
 
         SystemUI.successfulLogin(user.getName());
 

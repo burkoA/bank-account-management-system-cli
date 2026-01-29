@@ -11,20 +11,23 @@ import java.util.regex.Pattern;
 
 public class UserService {
     private final UserRepository userRepository;
+    public static final int MAX_PASSWORD_TRY = 3;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public User login(String email, String password) {
-        User user = userRepository.findByEmail(email)
+    public User login(String email) {
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalCredentialsException("Email is incorrect!"));
+    }
 
-        if (!PasswordHashing.verifyPassword(password, user.getPassword())) {
-            throw new IllegalCredentialsException("Password is incorrect");
-        }
+    public boolean verifyPassword(String plainPassword, String hashPassword) {
+        return PasswordHashing.verifyPassword(plainPassword, hashPassword);
+    }
 
-        return user;
+    public int getRemainAttempt(int tries) {
+        return MAX_PASSWORD_TRY - tries;
     }
 
     public void registration(User user) {
@@ -84,6 +87,12 @@ public class UserService {
 
     }
 
+    public void blockUser(User user) {
+        int userPosition = userRepository.findUser(user);
+        user.setLock(true);
+        userRepository.updateUser(userPosition, user);
+    }
+
     private void validateAmount(BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new BalanceException("Amount couldn't be smaller or equal 0");
@@ -96,4 +105,6 @@ public class UserService {
                 .matcher(email)
                 .matches();
     }
+
+
 }

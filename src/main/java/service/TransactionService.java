@@ -7,6 +7,7 @@ import repositories.TransactionRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class TransactionService {
     private TransactionRepository transactionRepository;
@@ -45,5 +46,13 @@ public class TransactionService {
         transaction.setTimestamp(LocalDateTime.now());
 
         return transaction;
+    }
+
+    public List<Transaction> getAllTransactionsPerUser(String email) {
+        return transactionRepository.findTransaction(email);
+    }
+
+    public List<Transaction> getLimitTransactionPerUser(String email, long numberOfTransaction) {
+        return transactionRepository.findLimitCountOfTransaction(email, numberOfTransaction);
     }
 }

@@ -19,4 +19,25 @@
   "amount" : 1500,
   "timestamp" : "2026-01-28T13:13:39.6807296",
   "operationType" : "TRANSFER"
+}, {
+  "id" : "24fe589a-107e-42c1-9388-66b706b4ca91",
+  "fromUser" : "qwerty@gmail.com",
+  "toUser" : null,
+  "amount" : 10000,
+  "timestamp" : "2026-01-28T20:51:15.9655326",
+  "operationType" : "DEPOSIT"
+}, {
+  "id" : "d7b9d036-5938-4772-a00e-5e6dbc77c9b3",
+  "fromUser" : "qwerty@gmail.com",
+  "toUser" : null,
+  "amount" : 2000,
+  "timestamp" : "2026-01-28T20:52:36.2735337",
+  "operationType" : "WITHDRAW"
+}, {
+  "id" : "68585258-a036-4173-9b5b-fbd4f380e044",
+  "fromUser" : "qwerty@gmail.com",
+  "toUser" : "anr@gmail.com",
+  "amount" : 50,
+  "timestamp" : "2026-01-28T20:53:53.7538745",
+  "operationType" : "TRANSFER"
 } ]

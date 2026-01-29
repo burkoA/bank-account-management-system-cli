@@ -64,4 +64,13 @@ public class Transaction {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public String toString() {
+        return  "Transaction type : " + operationType + '\n' +
+                ", From user : " + fromUser + '\n' +
+                ", To user : " + toUser + '\n' +
+                ", Amount : " + amount + '\n' +
+                ", Date : " + timestamp + '\n';
+    }
 }

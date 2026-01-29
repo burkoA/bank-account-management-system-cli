@@ -5,30 +5,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import exceptions.IllegalCredentialsException;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
-@JsonPropertyOrder({"id","name","email","password","balance"})
+@JsonPropertyOrder({"id","name","email","password","balance", "isLock"})
 public class User {
     private UUID id;
     private String email;
     private String name;
     private String password;
     private BigDecimal balance = new BigDecimal("0.00");
+    private boolean isLock = false;
 
     public User() {
         this.id = UUID.randomUUID();
-    }
-
-    public User(String email, String name, String password, BigDecimal balance) {
-        this.id = UUID.randomUUID();
-        setEmail(email);
-        setName(name);
-        setPassword(password);
-        setBalance(balance);
     }
 
     public UUID getId() {
@@ -75,6 +65,12 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean getLock() { return isLock; }
+
+    public void setLock(boolean isLock) {
+        this.isLock = isLock;
     }
 
     @Override

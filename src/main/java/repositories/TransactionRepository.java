@@ -39,4 +39,17 @@ public class TransactionRepository {
         transactions.add(transaction);
         writeTransactions();
     }
+
+    public List<Transaction> findTransaction(String userEmail) {
+        return transactions.stream()
+                .filter(transaction -> transaction.getFromUser().equals(userEmail))
+                .toList();
+    }
+
+    public List<Transaction> findLimitCountOfTransaction(String email, long limit) {
+        return transactions.stream()
+                .filter(transaction -> transaction.getFromUser().equals(email))
+                .limit(limit)
+                .toList();
+    }
 }
